@@ -28,6 +28,9 @@ interface NodePos {
   skill: Skill
 }
 
+// How much space to reserve around the outermost ring for node glow + labels
+const LAYOUT_PADDING = 52
+
 function buildLayout(skills: Skill[], W: number, H: number): NodePos[] {
   if (!skills.length) return []
 
@@ -41,13 +44,27 @@ function buildLayout(skills: Skill[], W: number, H: number): NodePos[] {
   const positions: NodePos[] = []
   const cx = W / 2
   const cy = H / 2
-  const radii = [0, 110, 200, 270, 330]
-  const catKeys = Object.keys(groups)
+
+  // Derive ring radii from the actual available space so nodes always fit.
+  // We use the smaller dimension minus padding so the graph is never clipped.
+  const maxR = Math.min(W, H) / 2 - LAYOUT_PADDING
+
+  // Sort categories ascending by node count so the fewest nodes get the
+  // innermost rings (shortest circumference, but fewest items to spread).
+  // Dense categories get outer rings where there is more arc length per node.
+  const catKeys = Object.keys(groups).sort(
+    (a, b) => groups[a].length - groups[b].length
+  )
+
+  // Rings evenly spaced at fractions 1/N, 2/N … N/N of maxR.
+  // Starting at 1/N (never 0) means no two nodes from the same category
+  // can ever collapse onto the same point regardless of their angle.
+  const radii = catKeys.map((_, i) => (maxR / catKeys.length) * (i + 1))
 
   catKeys.forEach((cat, ci) => {
-    const ring   = groups[cat]
-    const r      = radii[ci] ?? 310
-    const count  = ring.length
+    const ring  = groups[cat]
+    const r     = radii[ci] ?? maxR
+    const count = ring.length
     ring.forEach((skill, si) => {
       const angle = (si / count) * 2 * Math.PI - Math.PI / 2 + (ci * 0.3)
       positions.push({
@@ -64,26 +81,45 @@ function buildLayout(skills: Skill[], W: number, H: number): NodePos[] {
 
 // ─── Component ────────────────────────────────────────────────────────────────
 
+// Extra space around nodes to accommodate labels (rendered below) and glow rings
+const VIEWBOX_PAD = 36
+
 export function Skills({ skills }: SkillsProps) {
-  const [ref, inView]     = useInView({ triggerOnce: true, threshold: 0.1 })
+  const [ref, inView]         = useInView({ triggerOnce: true, threshold: 0.1 })
   const [hovered, setHovered] = useState<string | null>(null)
-  const svgRef            = useRef<SVGSVGElement>(null)
-  const [dims, setDims]   = useState({ w: 700, h: 520 })
+  const containerRef = useRef<HTMLDivElement>(null)
+  // Track only the container width — height is derived from node layout
+  const [containerW, setContainerW] = useState(700)
 
   useEffect(() => {
     function measure() {
-      if (svgRef.current) {
-        const rect = svgRef.current.getBoundingClientRect()
-        setDims({ w: rect.width || 700, h: rect.height || 520 })
+      if (containerRef.current) {
+        setContainerW(containerRef.current.offsetWidth || 700)
       }
     }
     measure()
     const ro = new ResizeObserver(measure)
-    if (svgRef.current) ro.observe(svgRef.current)
+    if (containerRef.current) ro.observe(containerRef.current)
     return () => ro.disconnect()
   }, [])
 
-  const nodes = buildLayout(skills, dims.w, dims.h)
+  // Height is always square-ish on desktop, capped on mobile
+  const svgH  = Math.min(containerW * 0.75, 580)
+  const nodes = buildLayout(skills, containerW, svgH)
+
+  // Compute the real bounding box of all positioned nodes so the viewBox
+  // always contains every node + its label, with no clipping.
+  const viewBox = (() => {
+    if (!nodes.length) return `0 0 ${containerW} ${svgH}`
+    const xs   = nodes.map((n) => n.x)
+    const ys   = nodes.map((n) => n.y)
+    const minX = Math.min(...xs) - VIEWBOX_PAD
+    const minY = Math.min(...ys) - VIEWBOX_PAD
+    const maxX = Math.max(...xs) + VIEWBOX_PAD
+    // Extra bottom pad for labels which render below the node
+    const maxY = Math.max(...ys) + VIEWBOX_PAD + 20
+    return `${minX} ${minY} ${maxX - minX} ${maxY - minY}`
+  })()
 
   // Build a set of all connections for the hovered node
   const hoveredSkill  = skills.find((s) => s.id === hovered)
@@ -135,13 +171,14 @@ export function Skills({ skills }: SkillsProps) {
           animate={inView ? { opacity: 1, scale: 1 } : {}}
           transition={{ duration: 0.8, ease: 'easeOut' }}
         >
+          {/* containerRef measures available width so layout radii scale correctly */}
+          <div ref={containerRef}>
           <GlassCard noPadding>
-            {/* SVG Network */}
+            {/* SVG Network — viewBox is computed from actual node bounding box */}
             <svg
-              ref={svgRef}
               className="w-full"
-              style={{ height: 520 }}
-              viewBox={`0 0 ${dims.w} ${dims.h}`}
+              style={{ height: svgH, display: 'block' }}
+              viewBox={viewBox}
               preserveAspectRatio="xMidYMid meet"
             >
               <defs>
@@ -243,6 +280,7 @@ export function Skills({ skills }: SkillsProps) {
               })}
             </svg>
           </GlassCard>
+          </div>
         </motion.div>
 
         {/* Legend */}
