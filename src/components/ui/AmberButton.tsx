@@ -2,37 +2,33 @@ import { motion } from 'framer-motion'
 import type { AmberButtonProps } from '@/types'
 import { cn } from '@/lib/utils'
 
-/**
- * AmberButton — the primary CTA component.
- * Three variants: solid (amber fill), outline (amber border), ghost (text-only).
- */
 export function AmberButton({
   children,
-  variant    = 'solid',
-  size       = 'md',
+  variant  = 'solid',
+  size     = 'md',
   href,
   onClick,
   className,
   icon,
-  external   = false,
-  disabled   = false,
+  external = false,
+  disabled = false,
 }: AmberButtonProps) {
   const sizeClasses = {
-    sm: 'px-4 py-2 text-sm',
-    md: 'px-6 py-3 text-sm',
-    lg: 'px-8 py-4 text-base',
+    sm: 'px-4 py-2 text-xs',
+    md: 'px-5 py-2.5 text-sm',
+    lg: 'px-7 py-3.5 text-sm',
   }
 
   const variantClasses = {
-    solid:   'bg-amber-500 text-void hover:bg-amber-400 shadow-amber-sm hover:shadow-amber font-semibold',
-    outline: 'border border-amber-500/50 text-amber-400 hover:border-amber-400 hover:text-amber-300 hover:bg-amber-500/5',
-    ghost:   'text-amber-400 hover:text-amber-300 hover:bg-amber-500/5',
+    solid:   'bg-accent text-white hover:bg-accent-dim font-semibold shadow-sm',
+    outline: 'border border-ink-200 text-ink-800 hover:border-ink-400 hover:bg-canvas-200',
+    ghost:   'text-ink-500 hover:text-ink-900 hover:bg-canvas-200',
   }
 
   const base = cn(
-    'inline-flex items-center gap-2 rounded-xl font-body tracking-wide',
-    'transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500/50',
-    'disabled:opacity-50 disabled:pointer-events-none',
+    'inline-flex items-center gap-2 rounded-full font-body tracking-wide',
+    'transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent/40',
+    'disabled:opacity-40 disabled:pointer-events-none',
     sizeClasses[size],
     variantClasses[variant],
     className
@@ -52,8 +48,7 @@ export function AmberButton({
         target={external ? '_blank' : undefined}
         rel={external ? 'noopener noreferrer' : undefined}
         className={base}
-        whileHover={{ scale: 1.02 }}
-        whileTap={{ scale: 0.98 }}
+        whileTap={{ scale: 0.97 }}
       >
         {content}
       </motion.a>
@@ -65,8 +60,7 @@ export function AmberButton({
       onClick={onClick}
       disabled={disabled}
       className={base}
-      whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileTap={{ scale: 0.97 }}
     >
       {content}
     </motion.button>

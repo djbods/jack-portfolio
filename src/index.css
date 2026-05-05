@@ -2,18 +2,26 @@
 @tailwind components;
 @tailwind utilities;
 
-/* ─── Base styles ──────────────────────────────────────────────────────────── */
+/* ─── CSS Custom Properties ────────────────────────────────────────────────── */
+
+:root {
+  --bg:        #f8f7f5;
+  --bg-raised: #fdfcfb;
+  --border:    #e5e0da;
+  --border-2:  #d2d1d6;
+  --ink:       #18171c;
+  --ink-2:     #3e3d45;
+  --ink-3:     #797882;
+  --ink-4:     #acabb2;
+  --accent:    #5b4cf5;
+  --accent-lt: #7c6ff7;
+  --accent-bg: #ede9fe;
+}
+
+/* ─── Base ─────────────────────────────────────────────────────────────────── */
 
 @layer base {
-  :root {
-    color-scheme: dark;
-  }
-
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   html {
     scroll-behavior: smooth;
@@ -23,61 +31,118 @@
   }
 
   body {
-    background-color: #07070f;
-    color: #fafaf9;
-    font-family: 'DM Sans', sans-serif;
+    background-color: var(--bg);
+    color: var(--ink);
+    font-family: 'DM Sans', system-ui, sans-serif;
+    font-size: 1rem;
+    line-height: 1.65;
     overflow-x: hidden;
   }
 
-  /* Remove default list / button styles */
-  button { cursor: pointer; }
-
-  /* Selection colour */
-  ::selection {
-    background: rgba(245, 158, 11, 0.25);
-    color: #fbbf24;
+  /* Headings default to Cabinet Grotesk */
+  h1, h2, h3, h4 {
+    font-family: 'Cabinet Grotesk', system-ui, sans-serif;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
   }
 
-  /* Scrollbar — webkit */
-  ::-webkit-scrollbar        { width: 5px; }
-  ::-webkit-scrollbar-track  { background: #07070f; }
-  ::-webkit-scrollbar-thumb  { background: rgba(245, 158, 11, 0.25); border-radius: 9999px; }
-  ::-webkit-scrollbar-thumb:hover { background: rgba(245, 158, 11, 0.45); }
+  button   { cursor: pointer; background: none; border: none; }
+  a        { color: inherit; text-decoration: none; }
+
+  ::selection {
+    background: rgba(91, 76, 245, 0.12);
+    color: var(--ink);
+  }
+
+  /* Thin, tasteful scrollbar */
+  ::-webkit-scrollbar        { width: 4px; }
+  ::-webkit-scrollbar-track  { background: transparent; }
+  ::-webkit-scrollbar-thumb  { background: var(--border); border-radius: 999px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--border-2); }
 }
 
-/* ─── Utility layer ────────────────────────────────────────────────────────── */
+/* ─── Utility Layer ────────────────────────────────────────────────────────── */
 
 @layer utilities {
-  /* Font shortcuts mapped to Tailwind font-* */
-  .font-display { font-family: 'Syne', sans-serif; }
-  .font-body    { font-family: 'DM Sans', sans-serif; }
-  .font-mono    { font-family: 'JetBrains Mono', monospace; }
+  /* Font family overrides */
+  .font-display { font-family: 'Cabinet Grotesk', system-ui, sans-serif; }
+  .font-body    { font-family: 'DM Sans', system-ui, sans-serif; }
+  .font-mono    { font-family: 'DM Mono', monospace; }
 
-  /* Amber text gradient */
-  .text-amber-gradient {
-    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  /* Hover underline animation */
+  .link-hover {
+    position: relative;
+    display: inline-block;
+  }
+  .link-hover::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.25s ease;
+  }
+  .link-hover:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 
-  /* Glass surface */
-  .glass {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(245, 158, 11, 0.08);
+  /* Accent underline — used on the hero name */
+  .accent-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .accent-underline::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--accent);
+    border-radius: 2px;
+    z-index: -1;
+    opacity: 0.25;
   }
 
-  /* Hide scrollbar but keep scrollable */
+  /* No scrollbar */
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* Stagger delays */
+  .delay-75   { animation-delay: 75ms; }
+  .delay-150  { animation-delay: 150ms; }
+  .delay-225  { animation-delay: 225ms; }
+  .delay-300  { animation-delay: 300ms; }
+  .delay-375  { animation-delay: 375ms; }
+  .delay-450  { animation-delay: 450ms; }
+  .delay-525  { animation-delay: 525ms; }
+  .delay-600  { animation-delay: 600ms; }
+  .delay-700  { animation-delay: 700ms; }
+  .delay-800  { animation-delay: 800ms; }
+  .delay-900  { animation-delay: 900ms; }
+  .delay-1000 { animation-delay: 1000ms; }
+  .delay-1100 { animation-delay: 1100ms; }
+  .delay-1200 { animation-delay: 1200ms; }
+
+  /* Opacity-0 waiting state for animated items */
+  .will-animate { opacity: 0; }
 }
 
-/* ─── Global animations ────────────────────────────────────────────────────── */
+/* ─── Keyframes ────────────────────────────────────────────────────────────── */
 
-@keyframes scanLine {
-  0%   { top: -2px;   }
-  100% { top: 100vh;  }
+@keyframes fadeUp {
+  0%   { opacity: 0; transform: translateY(16px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeIn {
+  0%   { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 @keyframes blink {
@@ -85,14 +150,21 @@
   50%       { opacity: 0; }
 }
 
-@keyframes pulseAmber {
-  0%, 100% { box-shadow: 0 0 10px rgba(245,158,11,0.2); }
-  50%       { box-shadow: 0 0 30px rgba(245,158,11,0.6); }
-}
+/* ─── Code block syntax theme (used in hero + about) ───────────────────────── */
 
-/* ─── Framer Motion global overrides ───────────────────────────────────────── */
-
-/* Prevent FOUC on motion elements */
-[data-framer-component-type] {
-  will-change: transform, opacity;
+.code-block {
+  background: var(--ink);
+  color: #e2e0e8;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.8125rem;
+  line-height: 1.75;
+  border-radius: 14px;
+  overflow: hidden;
 }
+.code-block .token-keyword  { color: #a78bfa; }
+.code-block .token-string   { color: #86efac; }
+.code-block .token-number   { color: #fb923c; }
+.code-block .token-comment  { color: #6b7280; font-style: italic; }
+.code-block .token-prop     { color: #93c5fd; }
+.code-block .token-punct    { color: #9ca3af; }
+.code-block .token-fn       { color: #f9a8d4; }

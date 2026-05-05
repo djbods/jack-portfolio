@@ -5,95 +5,84 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Deep black backgrounds
-        void: {
-          DEFAULT: '#07070f',
-          100: '#0d0d1a',
-          200: '#111122',
-          300: '#16162e',
+        // ── Ink system (near-black, warm-tinted) ──────────────────────────
+        ink: {
+          DEFAULT: '#18171c',
+          50:  '#f6f6f7',
+          100: '#ebebed',
+          200: '#d2d1d6',
+          300: '#acabb2',
+          400: '#797882',
+          500: '#56555e',
+          600: '#3e3d45',
+          700: '#2e2d34',
+          800: '#222129',
+          900: '#18171c',
         },
-        // Amber accent system
-        amber: {
-          50:  '#fffbeb',
-          100: '#fef3c7',
-          200: '#fde68a',
-          300: '#fcd34d',
-          400: '#fbbf24',
-          500: '#f59e0b',
-          600: '#d97706',
-          700: '#b45309',
-          800: '#92400e',
-          900: '#78350f',
+        // ── Canvas (warm off-white backgrounds) ───────────────────────────
+        canvas: {
+          DEFAULT: '#f8f7f5',
+          50:  '#fdfcfb',
+          100: '#f8f7f5',
+          200: '#f0ede9',
+          300: '#e5e0da',
         },
-        // Warm white text
-        warm: {
-          50:  '#fafaf9',
-          100: '#f5f5f4',
-          200: '#e7e5e4',
-          300: '#d6d3d1',
-          400: '#a8a29e',
-          500: '#78716c',
-          600: '#57534e',
-          700: '#44403c',
-          800: '#292524',
-          900: '#1c1917',
+        // ── Accent — electric violet-blue ─────────────────────────────────
+        // Used sparingly: CTAs, active states, featured highlights, hover moments.
+        // High contrast on both canvas and ink backgrounds.
+        accent: {
+          DEFAULT: '#5b4cf5',
+          light:   '#7c6ff7',
+          dim:     '#3d30d4',
+          pale:    '#ede9fe',
+          muted:   '#c4bdfb',
         },
       },
+
       fontFamily: {
-        display:  ['Syne', 'sans-serif'],
-        body:     ['DM Sans', 'sans-serif'],
-        mono:     ['JetBrains Mono', 'monospace'],
+        // Cabinet Grotesk — geometric, bold, confident
+        display: ['"Cabinet Grotesk"', 'system-ui', 'sans-serif'],
+        // DM Sans — clean, legible, friendly body copy
+        body:    ['"DM Sans"', 'system-ui', 'sans-serif'],
+        // DM Mono — code, labels, metadata
+        mono:    ['"DM Mono"', 'monospace'],
       },
-      backgroundImage: {
-        'circuit': "url(\"data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg stroke='%23f59e0b' stroke-width='0.3' stroke-opacity='0.06'%3E%3Cpath d='M0 30h60M30 0v60M0 15h15v15M45 0v15h15M45 45h15v15M0 45h15v15'/%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3Ccircle cx='0'  cy='30' r='1.5'/%3E%3Ccircle cx='60' cy='30' r='1.5'/%3E%3Ccircle cx='30' cy='0'  r='1.5'/%3E%3Ccircle cx='30' cy='60' r='1.5'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E\")",
-        'grid-amber': "linear-gradient(rgba(245,158,11,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(245,158,11,0.03) 1px, transparent 1px)",
+
+      letterSpacing: {
+        tightest: '-0.04em',
+        tighter:  '-0.03em',
+        tight:    '-0.02em',
+        snug:     '-0.01em',
       },
-      backgroundSize: {
-        'grid': '40px 40px',
-      },
-      boxShadow: {
-        'amber-sm':  '0 0 10px rgba(245,158,11,0.2)',
-        'amber':     '0 0 20px rgba(245,158,11,0.3)',
-        'amber-lg':  '0 0 40px rgba(245,158,11,0.4)',
-        'amber-xl':  '0 0 60px rgba(245,158,11,0.5)',
-        'glass':     '0 8px 32px rgba(0,0,0,0.4)',
-        'glass-lg':  '0 16px 64px rgba(0,0,0,0.5)',
-      },
+
       animation: {
-        'pulse-amber':   'pulseAmber 2s ease-in-out infinite',
-        'float':         'float 6s ease-in-out infinite',
-        'scan-line':     'scanLine 4s linear infinite',
-        'glitch':        'glitch 3s step-end infinite',
-        'blink':         'blink 1s step-end infinite',
-        'data-flow':     'dataFlow 2s linear infinite',
+        'fade-up':   'fadeUp 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        'fade-in':   'fadeIn 0.4s ease-out forwards',
+        'blink':     'blink 1.1s step-end infinite',
+        'ping-slow': 'ping 2s cubic-bezier(0, 0, 0.2, 1) infinite',
       },
+
       keyframes: {
-        pulseAmber: {
-          '0%, 100%': { boxShadow: '0 0 10px rgba(245,158,11,0.2)' },
-          '50%':      { boxShadow: '0 0 30px rgba(245,158,11,0.6)' },
+        fadeUp: {
+          '0%':   { opacity: '0', transform: 'translateY(16px)' },
+          '100%': { opacity: '1', transform: 'translateY(0)' },
         },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%':      { transform: 'translateY(-12px)' },
-        },
-        scanLine: {
-          '0%':   { transform: 'translateY(-100%)' },
-          '100%': { transform: 'translateY(100vh)' },
-        },
-        glitch: {
-          '0%, 100%': { transform: 'translate(0)' },
-          '20%':      { transform: 'translate(-2px, 1px)' },
-          '40%':      { transform: 'translate(2px, -1px)' },
-          '60%':      { transform: 'translate(-1px, 2px)' },
+        fadeIn: {
+          '0%':   { opacity: '0' },
+          '100%': { opacity: '1' },
         },
         blink: {
           '0%, 100%': { opacity: '1' },
           '50%':      { opacity: '0' },
         },
-        dataFlow: {
-          '0%':   { strokeDashoffset: '100' },
-          '100%': { strokeDashoffset: '0' },
-        },
+      },
+
+      boxShadow: {
+        // For cards and elevated surfaces
+        'card':    '0 1px 3px rgba(24,23,28,0.06), 0 4px 16px rgba(24,23,28,0.06)',
+        'card-lg': '0 2px 8px rgba(24,23,28,0.08), 0 12px 40px rgba(24,23,28,0.08)',
+        // Accent glow for interactive hover
+        'accent':  '0 0 0 3px rgba(91,76,245,0.2)',
       },
     },
   },

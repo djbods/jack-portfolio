@@ -1,24 +1,20 @@
 import { motion } from 'framer-motion'
-import type { GlassCardProps } from '@/types'
 import { cn } from '@/lib/utils'
+import type { GlassCardProps } from '@/types'
 
-/**
- * GlassCard — the core surface component of the portfolio.
- * Glassmorphism with optional amber border glow on hover.
- */
-export function GlassCard({
+export function Card({
   children,
   className,
-  hoverable   = false,
-  glowOnHover = false,
-  noPadding   = false,
+  hoverable  = false,
+  noPadding  = false,
 }: GlassCardProps) {
   const base = cn(
-    'relative rounded-2xl border border-amber-500/10 bg-white/[0.03] backdrop-blur-sm',
+    'rounded-2xl border border-canvas-300 bg-white',
     !noPadding && 'p-6',
-    hoverable && 'transition-all duration-300 cursor-pointer',
-    hoverable && 'hover:border-amber-500/30 hover:bg-white/[0.06]',
-    glowOnHover && 'hover:shadow-amber',
+    hoverable && [
+      'transition-all duration-300 cursor-pointer',
+      'hover:border-ink-200 hover:shadow-card',
+    ].join(' '),
     className
   )
 
@@ -26,14 +22,9 @@ export function GlassCard({
     return (
       <motion.div
         className={base}
-        whileHover={{ y: -4 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+        whileHover={{ y: -3 }}
+        transition={{ type: 'spring', stiffness: 400, damping: 25 }}
       >
-        {/* Subtle corner accent */}
-        <span className="pointer-events-none absolute inset-0 rounded-2xl">
-          <span className="absolute left-0 top-0 h-12 w-px bg-gradient-to-b from-amber-400/40 to-transparent" />
-          <span className="absolute left-0 top-0 h-px  w-12 bg-gradient-to-r from-amber-400/40 to-transparent" />
-        </span>
         {children}
       </motion.div>
     )
@@ -41,3 +32,5 @@ export function GlassCard({
 
   return <div className={base}>{children}</div>
 }
+
+export { Card as GlassCard }

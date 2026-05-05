@@ -3,10 +3,6 @@ import { useInView } from 'react-intersection-observer'
 import type { SectionTitleProps } from '@/types'
 import { cn } from '@/lib/utils'
 
-/**
- * SectionTitle — consistent section heading with animated reveal.
- * Uses an "eyebrow" label (e.g. "01 / PROJECTS") above the main title.
- */
 export function SectionTitle({
   eyebrow,
   title,
@@ -14,63 +10,53 @@ export function SectionTitle({
   centered  = false,
   className,
 }: SectionTitleProps) {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.3 })
-
-  const variants = {
-    hidden:  { opacity: 0, y: 24 },
-    visible: { opacity: 1, y: 0 },
-  }
+  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 })
 
   return (
     <div
       ref={ref}
-      className={cn(
-        'mb-12 md:mb-16',
-        centered && 'text-center',
-        className
-      )}
+      className={cn('mb-14 md:mb-20', centered && 'text-center', className)}
     >
       {/* Eyebrow */}
       <motion.p
-        initial="hidden"
-        animate={inView ? 'visible' : 'hidden'}
-        variants={variants}
-        transition={{ duration: 0.5, ease: 'easeOut' }}
-        className="mb-3 font-mono text-xs tracking-[0.3em] text-amber-500 uppercase"
+        initial={{ opacity: 0 }}
+        animate={inView ? { opacity: 1 } : {}}
+        transition={{ duration: 0.4 }}
+        className="font-mono text-xs tracking-[0.18em] text-ink-400 uppercase mb-4"
       >
         {eyebrow}
       </motion.p>
 
-      {/* Title */}
-      <motion.h2
-        initial="hidden"
-        animate={inView ? 'visible' : 'hidden'}
-        variants={variants}
-        transition={{ duration: 0.6, ease: 'easeOut', delay: 0.1 }}
-        className="font-display text-3xl font-bold text-warm-50 md:text-4xl lg:text-5xl"
-      >
-        {title}
-      </motion.h2>
+      {/* Title — Cabinet Grotesk, bold, legible */}
+      <div className="overflow-hidden">
+        <motion.h2
+          initial={{ y: '105%' }}
+          animate={inView ? { y: 0 } : {}}
+          transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.05 }}
+          className="font-display font-bold text-ink-900"
+          style={{ fontSize: 'clamp(1.875rem, 4vw, 3.25rem)', lineHeight: 1.08, letterSpacing: '-0.03em' }}
+        >
+          {title}
+        </motion.h2>
+      </div>
 
-      {/* Amber underline accent */}
+      {/* Accent rule */}
       <motion.div
-        initial={{ scaleX: 0, originX: centered ? 0.5 : 0 }}
-        animate={inView ? { scaleX: 1 } : { scaleX: 0 }}
-        transition={{ duration: 0.6, ease: 'easeOut', delay: 0.3 }}
+        initial={{ scaleX: 0 }}
+        animate={inView ? { scaleX: 1 } : {}}
+        transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
         className={cn(
-          'mt-4 h-px w-16 bg-gradient-to-r from-amber-500 to-transparent',
-          centered && 'mx-auto'
+          'mt-4 h-[3px] w-10 bg-accent rounded-full origin-left',
+          centered && 'mx-auto origin-center'
         )}
       />
 
-      {/* Optional subtitle */}
       {subtitle && (
         <motion.p
-          initial="hidden"
-          animate={inView ? 'visible' : 'hidden'}
-          variants={variants}
-          transition={{ duration: 0.6, ease: 'easeOut', delay: 0.2 }}
-          className="mt-6 max-w-2xl font-body text-warm-400 md:text-lg"
+          initial={{ opacity: 0, y: 8 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.55, ease: 'easeOut', delay: 0.12 }}
+          className="mt-5 font-body text-ink-500 max-w-2xl leading-relaxed md:text-lg"
         >
           {subtitle}
         </motion.p>
