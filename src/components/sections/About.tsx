@@ -2,7 +2,6 @@ import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import { AmberButton } from '@/components/ui/AmberButton'
-import { Card } from '@/components/ui/GlassCard'
 import type { SiteConfig } from '@/types'
 
 interface AboutProps {

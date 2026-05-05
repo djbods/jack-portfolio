@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { SectionTitle } from '@/components/ui/SectionTitle'
 import type { Skill } from '@/types'
 
 interface SkillsProps {

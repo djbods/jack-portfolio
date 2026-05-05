@@ -46,10 +46,10 @@ export function NeuralCanvas({ opacity = 1, className = '' }: NeuralCanvasProps)
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
-    const canvas = canvasRef.current
+    const canvas = canvasRef.current as HTMLCanvasElement
     if (!canvas) return
 
-    const ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d') as CanvasRenderingContext2D
     if (!ctx) return
 
     // ── Init ──────────────────────────────────────────────────────────────────
