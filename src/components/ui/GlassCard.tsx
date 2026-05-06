@@ -1,13 +1,13 @@
 import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
-import type { GlassCardProps } from '@/types'
+import type { CardProps } from '@/types'
 
 export function Card({
   children,
   className,
   hoverable  = false,
   noPadding  = false,
-}: GlassCardProps) {
+}: CardProps) {
   const base = cn(
     'rounded-2xl border border-canvas-300 bg-white',
     !noPadding && 'p-6',
@@ -33,4 +33,3 @@ export function Card({
   return <div className={base}>{children}</div>
 }
 
-export { Card as GlassCard }

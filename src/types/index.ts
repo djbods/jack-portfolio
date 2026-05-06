@@ -54,11 +54,10 @@ export interface SiteConfig {
 
 // ─── Component Prop Types ─────────────────────────────────────────────────────
 
-export interface GlassCardProps {
+export interface CardProps {
   children: React.ReactNode
   className?: string
   hoverable?: boolean
-  glowOnHover?: boolean
   noPadding?: boolean
 }
 
@@ -70,7 +69,7 @@ export interface SectionTitleProps {
   className?: string
 }
 
-export interface AmberButtonProps {
+export interface ButtonProps {
   children: React.ReactNode
   variant?: 'solid' | 'outline' | 'ghost'
   size?: 'sm' | 'md' | 'lg'
