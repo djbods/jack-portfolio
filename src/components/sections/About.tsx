@@ -1,27 +1,26 @@
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
 import { SectionTitle } from '@/components/ui/SectionTitle'
-import { AmberButton } from '@/components/ui/AmberButton'
+import { Button } from '@/components/ui/Button'
 import type { SiteConfig } from '@/types'
 
 interface AboutProps {
   config: SiteConfig | null
 }
 
-const FACTS = [
-  { label: 'Role',       value: 'Front-End Developer' },
-  { label: 'Location',   value: 'Melbourne, VIC' },
-  { label: 'Currently',  value: 'University of Melbourne' },
-  { label: 'Stack',      value: 'Vue.js · TypeScript · React' },
-  { label: 'Background', value: 'Electronic music & DJing' },
-  { label: 'Available',  value: 'Yes — open to new roles' },
-]
-
 export function About({ config }: AboutProps) {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
 
+  const facts = [
+    { label: 'Role',       value: config?.title    ?? 'Front-End Developer' },
+    { label: 'Location',   value: config?.location ?? 'Melbourne, VIC' },
+    { label: 'Stack',      value: 'Vue.js · TypeScript · React' },
+    { label: 'Background', value: 'Electronic music & DJing' },
+    { label: 'Available',  value: config?.availableForWork ? 'Yes — open to new roles' : 'Not actively looking' },
+  ]
+
   return (
-    <section id="about" className="py-20 md:py-32 bg-canvas-100">
+    <section id="about" className="py-20 md:py-32 bg-canvas-100 min-h-screen flex flex-col justify-center">
       <div className="mx-auto max-w-[1120px] px-6 md:px-10">
         <SectionTitle
           eyebrow="About"
@@ -61,12 +60,12 @@ export function About({ config }: AboutProps) {
               animate={inView ? { opacity: 1 } : {}}
               transition={{ delay: 0.28 }}
             >
-              <AmberButton variant="solid" href={config?.github ?? 'https://github.com/jackbodsworth'} external>
+              <Button variant="solid" href={config?.github ?? 'https://github.com/jackbodsworth'} external>
                 GitHub
-              </AmberButton>
-              <AmberButton variant="outline" href={config?.linkedin ?? 'https://linkedin.com/in/jackbodsworth'} external>
+              </Button>
+              <Button variant="outline" href={config?.linkedin ?? 'https://linkedin.com/in/jackbodsworth'} external>
                 LinkedIn
-              </AmberButton>
+              </Button>
             </motion.div>
           </div>
 
@@ -77,7 +76,7 @@ export function About({ config }: AboutProps) {
             transition={{ delay: 0.2, duration: 0.65 }}
           >
             <div className="border border-canvas-300 rounded-2xl bg-white overflow-hidden shadow-card">
-              {FACTS.map(({ label, value }, i) => (
+              {facts.map(({ label, value }, i) => (
                 <motion.div
                   key={label}
                   className="flex gap-4 px-6 py-4 border-b border-canvas-300 last:border-0"

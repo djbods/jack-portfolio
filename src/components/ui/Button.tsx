@@ -1,8 +1,8 @@
 import { motion } from 'framer-motion'
-import type { AmberButtonProps } from '@/types'
+import type { ButtonProps } from '@/types'
 import { cn } from '@/lib/utils'
 
-export function AmberButton({
+export function Button({
   children,
   variant  = 'solid',
   size     = 'md',
@@ -12,7 +12,7 @@ export function AmberButton({
   icon,
   external = false,
   disabled = false,
-}: AmberButtonProps) {
+}: ButtonProps) {
   const sizeClasses = {
     sm: 'px-4 py-2 text-xs',
     md: 'px-5 py-2.5 text-sm',
