@@ -8,18 +8,13 @@ interface AboutProps {
   config: SiteConfig | null
 }
 
-const CODE_LINES = [
-  { indent: 0, tokens: [{ t: 'const ', c: 'token-keyword' }, { t: 'engineer', c: 'token-fn' }, { t: ' = {', c: 'token-punct' }] },
-  { indent: 1, tokens: [{ t: 'name:       ', c: 'token-prop' }, { t: '"Jack Bodsworth"', c: 'token-string' }, { t: ',', c: 'token-punct' }] },
-  { indent: 1, tokens: [{ t: 'location:   ', c: 'token-prop' }, { t: '"Melbourne, AU"', c: 'token-string' }, { t: ',', c: 'token-punct' }] },
-  { indent: 1, tokens: [{ t: 'experience: ', c: 'token-prop' }, { t: '4', c: 'token-number' }, { t: ', // years', c: 'token-comment' }] },
-  { indent: 1, tokens: [{ t: 'focus: ', c: 'token-prop' }, { t: '[', c: 'token-punct' }] },
-  { indent: 2, tokens: [{ t: '"Vue.js & React"', c: 'token-string' }, { t: ',', c: 'token-punct' }] },
-  { indent: 2, tokens: [{ t: '"Design Systems"', c: 'token-string' }, { t: ',', c: 'token-punct' }] },
-  { indent: 2, tokens: [{ t: '"Performance"', c: 'token-string' }, { t: ',', c: 'token-punct' }] },
-  { indent: 1, tokens: [{ t: '],', c: 'token-punct' }] },
-  { indent: 1, tokens: [{ t: 'available:  ', c: 'token-prop' }, { t: 'true', c: 'token-keyword' }, { t: ',', c: 'token-punct' }] },
-  { indent: 0, tokens: [{ t: '}', c: 'token-punct' }] },
+const FACTS = [
+  { label: 'Role',       value: 'Front-End Developer' },
+  { label: 'Location',   value: 'Melbourne, VIC' },
+  { label: 'Currently',  value: 'University of Melbourne' },
+  { label: 'Stack',      value: 'Vue.js · TypeScript · React' },
+  { label: 'Background', value: 'Electronic music & DJing' },
+  { label: 'Available',  value: 'Yes — open to new roles' },
 ]
 
 export function About({ config }: AboutProps) {
@@ -30,8 +25,8 @@ export function About({ config }: AboutProps) {
       <div className="mx-auto max-w-[1120px] px-6 md:px-10">
         <SectionTitle
           eyebrow="About"
-          title="The human behind the code."
-          subtitle="I believe great front-end engineering is half science, half craft."
+          title="I used to make music. Now I make UIs."
+          subtitle="The overlap is bigger than you'd think."
         />
 
         <motion.div
@@ -75,43 +70,25 @@ export function About({ config }: AboutProps) {
             </motion.div>
           </div>
 
-          {/* Code card */}
+          {/* Facts card */}
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             animate={inView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 0.2, duration: 0.65 }}
           >
-            <div className="code-block shadow-card-lg">
-              <div className="flex items-center gap-2 border-b border-white/[0.07] px-4 py-3">
-                <span className="h-2.5 w-2.5 rounded-full bg-red-400/60" />
-                <span className="h-2.5 w-2.5 rounded-full bg-yellow-400/60" />
-                <span className="h-2.5 w-2.5 rounded-full bg-green-400/60" />
-                <span className="ml-3 font-mono text-xs text-white/30">engineer.ts</span>
-              </div>
-              <div className="px-5 py-4">
-                {CODE_LINES.map((line, i) => (
-                  <motion.div
-                    key={i}
-                    className="flex min-h-[1.75em]"
-                    initial={{ opacity: 0, x: -6 }}
-                    animate={inView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ delay: 0.4 + i * 0.05, duration: 0.25 }}
-                  >
-                    <span className="select-none w-5 mr-5 text-right text-white/15 text-xs shrink-0 leading-[1.75]">
-                      {i + 1}
-                    </span>
-                    <span style={{ paddingLeft: `${line.indent * 1.25}rem` }}>
-                      {line.tokens.map((token, j) => (
-                        <span key={j} className={token.c}>{token.t}</span>
-                      ))}
-                    </span>
-                  </motion.div>
-                ))}
-                <div className="flex">
-                  <span className="select-none w-5 mr-5 text-right text-white/15 text-xs shrink-0 leading-[1.75]">12</span>
-                  <span className="inline-block w-[7px] h-[14px] bg-accent/70 animate-blink mt-[5px]" />
-                </div>
-              </div>
+            <div className="border border-canvas-300 rounded-2xl bg-white overflow-hidden shadow-card">
+              {FACTS.map(({ label, value }, i) => (
+                <motion.div
+                  key={label}
+                  className="flex gap-4 px-6 py-4 border-b border-canvas-300 last:border-0"
+                  initial={{ opacity: 0, x: -6 }}
+                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  transition={{ delay: 0.35 + i * 0.05, duration: 0.25 }}
+                >
+                  <span className="font-mono text-xs text-ink-400 w-24 shrink-0 pt-0.5">{label}</span>
+                  <span className="font-body text-sm text-ink-800">{value}</span>
+                </motion.div>
+              ))}
             </div>
           </motion.div>
         </motion.div>

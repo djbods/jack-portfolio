@@ -108,8 +108,8 @@ export function Projects({ projects }: ProjectsProps) {
       <div className="mx-auto max-w-[1120px] px-6 md:px-10">
         <SectionTitle
           eyebrow="Projects"
-          title="Things I've shipped."
-          subtitle="Selected work from the last few years — focused on performance, craft, and real-world impact."
+          title="Stuff I've built."
+          subtitle="Selected work from the last few years — real projects, real problems, no lorem ipsum."
         />
 
         {/* Filter tabs */}

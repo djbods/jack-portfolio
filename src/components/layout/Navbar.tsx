@@ -62,13 +62,22 @@ export function Navbar() {
             ))}
           </ul>
 
-          {/* CTA */}
-          <a
-            href="mailto:jack.bodsworth@gmail.com"
-            className="hidden md:inline-flex items-center font-body text-sm font-semibold text-white bg-accent rounded-full px-5 py-2 hover:bg-accent-dim transition-colors duration-200"
-          >
-            Hire me
-          </a>
+          {/* CTAs */}
+          <div className="hidden md:flex items-center gap-3">
+            <a
+              href="/resume.pdf"
+              download
+              className="font-body text-sm text-ink-500 hover:text-ink-900 transition-colors duration-200"
+            >
+              Resume
+            </a>
+            <a
+              href="mailto:jack.bodsworth@gmail.com"
+              className="inline-flex items-center font-body text-sm font-semibold text-white bg-accent rounded-full px-5 py-2 hover:bg-accent-dim transition-colors duration-200"
+            >
+              Hire me
+            </a>
+          </div>
 
           {/* Mobile toggle */}
           <button

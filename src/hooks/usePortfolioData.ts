@@ -42,10 +42,10 @@ export function usePortfolioData(): PortfolioData {
         ])
 
         setData({
-          config:     config     ?? STATIC_CONFIG,
-          projects:   projects   ?? STATIC_PROJECTS,
-          experience: experience ?? STATIC_EXPERIENCE,
-          skills:     skills     ?? STATIC_SKILLS,
+          config:     config                              ?? STATIC_CONFIG,
+          projects:   (projects   && projects.length   > 0) ? projects   : STATIC_PROJECTS,
+          experience: (experience && experience.length > 0) ? experience : STATIC_EXPERIENCE,
+          skills:     (skills     && skills.length     > 0) ? skills     : STATIC_SKILLS,
           loading:    false,
           error:      null,
         })

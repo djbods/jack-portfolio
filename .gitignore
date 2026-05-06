@@ -42,3 +42,6 @@ pnpm-debug.log*
 firebase-debug.log
 .firebaserc
 yarn.lock
+
+#Service account
+service-account.json

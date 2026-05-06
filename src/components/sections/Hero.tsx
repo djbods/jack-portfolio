@@ -188,7 +188,7 @@ export function Hero({ config }: HeroProps) {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.65, duration: 0.55 }}
               >
-                {config?.tagline ?? 'I craft high-performance interfaces where engineering meets design.'}
+                {config?.tagline ?? 'I build the things people actually see and touch — and I care a lot about getting them right.'}
               </motion.p>
 
               {/* CTAs */}
@@ -210,6 +210,13 @@ export function Hero({ config }: HeroProps) {
                 >
                   Get in touch
                 </button>
+                <a
+                  href="/resume.pdf"
+                  download
+                  className="font-body text-sm font-medium text-ink-500 hover:text-ink-900 transition-colors duration-200"
+                >
+                  Download CV
+                </a>
               </motion.div>
 
               {/* Tech badges */}
@@ -286,9 +293,9 @@ export function Hero({ config }: HeroProps) {
               {/* Stats row below code */}
               <div className="mt-4 grid grid-cols-3 gap-3">
                 {[
-                  { value: `${config?.yearsExperience ?? 4}+`, label: 'Years', sub: 'experience' },
-                  { value: '40%',  label: 'Faster',  sub: 'deploys' },
-                  { value: '30%',  label: 'Reduced',  sub: 'load time' },
+                  { value: `${config?.yearsExperience ?? 4}+`, label: 'Years',   sub: 'experience' },
+                  { value: 'Faster',                          label: 'Deploys', sub: 'CI/CD automation' },
+                  { value: 'Leaner',                          label: 'Bundles', sub: 'perf. optimised' },
                 ].map(({ value, label, sub }) => (
                   <div
                     key={label}

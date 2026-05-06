@@ -56,9 +56,20 @@ export function Contact({ config }: ContactProps) {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setStatus('sending')
-    await new Promise((r) => setTimeout(r, 1200))
-    setStatus('success')
-    setForm({ name: '', email: '', subject: '', message: '' })
+    try {
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({
+          'form-name': 'contact',
+          ...form,
+        }).toString(),
+      })
+      setStatus('success')
+      setForm({ name: '', email: '', subject: '', message: '' })
+    } catch {
+      setStatus('error')
+    }
   }
 
   const SOCIALS = [
@@ -71,8 +82,8 @@ export function Contact({ config }: ContactProps) {
       <div className="mx-auto max-w-[1120px] px-6 md:px-10">
         <SectionTitle
           eyebrow="Contact"
-          title="Let's build something great."
-          subtitle="Whether you have a project in mind or just want to say hello — my inbox is always open."
+          title="Say hello."
+          subtitle="Open to senior front-end roles in Melbourne or remote. Happy to chat about Vue.js, design systems, or vintage synthesisers."
           centered
         />
 
@@ -146,7 +157,9 @@ export function Contact({ config }: ContactProps) {
                     </button>
                   </motion.div>
                 ) : (
-                  <form onSubmit={handleSubmit} className="space-y-7">
+                  <form name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" onSubmit={handleSubmit} className="space-y-7">
+                    <input type="hidden" name="form-name" value="contact" />
+                    <input type="hidden" name="bot-field" />
                     <div className="grid gap-7 sm:grid-cols-2">
                       <Field label="Name"  name="name"  value={form.name}  onChange={setField('name')}  required />
                       <Field label="Email" name="email" type="email" value={form.email} onChange={setField('email')} required />

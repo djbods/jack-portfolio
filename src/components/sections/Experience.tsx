@@ -123,8 +123,8 @@ export function ExperienceSection({ experience }: ExperienceProps) {
       <div className="mx-auto max-w-[1120px] px-6 md:px-10">
         <SectionTitle
           eyebrow="Experience"
-          title="Where I've made an impact."
-          subtitle="Companies I've built with, problems I've solved, products I've shipped."
+          title="Where I've worked."
+          subtitle="Four years building production software at organisations that actually use it."
         />
         <div className="max-w-3xl">
           {sorted.map((exp, i) => (
