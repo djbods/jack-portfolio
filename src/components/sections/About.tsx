@@ -9,7 +9,7 @@ interface AboutProps {
 }
 
 export function About({ config }: AboutProps) {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const [ref, inView] = useInView({ threshold: 0.1 })
 
   const facts = [
     { label: 'Role',       value: config?.title    ?? 'Front-End Developer' },
@@ -32,7 +32,7 @@ export function About({ config }: AboutProps) {
           ref={ref}
           className="grid gap-12 lg:grid-cols-2 lg:gap-20 items-start"
           initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
+          animate={inView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.4 }}
         >
           {/* Bio */}
@@ -40,7 +40,7 @@ export function About({ config }: AboutProps) {
             <motion.p
               className="font-body text-lg leading-relaxed text-ink-700"
               initial={{ opacity: 0, y: 14 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
               transition={{ delay: 0.1, duration: 0.55 }}
             >
               {config?.bio ?? 'Front-end developer with 4+ years of experience building intuitive, high-performance UIs using Vue.js, React, and modern JavaScript. Based in Melbourne.'}
@@ -48,7 +48,7 @@ export function About({ config }: AboutProps) {
             <motion.p
               className="font-body leading-relaxed text-ink-500"
               initial={{ opacity: 0, y: 14 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 14 }}
               transition={{ delay: 0.18, duration: 0.55 }}
             >
               {config?.bioExtended ?? 'Whether building a design system adopted across five repositories, shaving 30% off page load times, or wiring up end-to-end CI/CD pipelines — I bring the same level of care to every layer of the stack.'}
@@ -57,7 +57,7 @@ export function About({ config }: AboutProps) {
             <motion.div
               className="flex gap-3 pt-2"
               initial={{ opacity: 0 }}
-              animate={inView ? { opacity: 1 } : {}}
+              animate={inView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ delay: 0.28 }}
             >
               <Button variant="solid" href={config?.github ?? 'https://github.com/jackbodsworth'} external>
@@ -72,7 +72,7 @@ export function About({ config }: AboutProps) {
           {/* Facts card */}
           <motion.div
             initial={{ opacity: 0, y: 18 }}
-            animate={inView ? { opacity: 1, y: 0 } : {}}
+            animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
             transition={{ delay: 0.2, duration: 0.65 }}
           >
             <div className="border border-canvas-300 rounded-2xl bg-white overflow-hidden shadow-card">
@@ -81,7 +81,7 @@ export function About({ config }: AboutProps) {
                   key={label}
                   className="flex gap-4 px-6 py-4 border-b border-canvas-300 last:border-0"
                   initial={{ opacity: 0, x: -6 }}
-                  animate={inView ? { opacity: 1, x: 0 } : {}}
+                  animate={inView ? { opacity: 1, x: 0 } : { opacity: 0, x: -6 }}
                   transition={{ delay: 0.35 + i * 0.05, duration: 0.25 }}
                 >
                   <span className="font-mono text-xs text-ink-400 w-24 shrink-0 pt-0.5">{label}</span>
