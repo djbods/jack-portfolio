@@ -114,7 +114,7 @@ React › Node.js › UIkit › Figma › Unit Testing › E2E Testing › Bash 
 - **Dark mode only** — no light mode toggle needed
 - **Amber accents, not blue** — resist any urge to use blue/purple; amber is the brand
 - **Glassmorphism** — surfaces use `GlassCard` component, never solid fills
-- **Framer Motion** — all reveals use `useInView` with `triggerOnce: true`
+- **Framer Motion** — reveals use `useInView` *without* `triggerOnce` so animations replay every time a section re-enters the viewport (including after scrolling back to the top); set the `animate` prop to the initial values when out of view, not `{}`, so elements actually reset
 - **No mid-word line breaks on the hero name** — `whitespace-nowrap` per word, `clamp()` font size
 - **Mobile-first** — test at 375px, 768px, 1280px, 1920px
 - **Subtle, not loud** — glow effects should feel premium, not garish. When in doubt, reduce opacity.

@@ -13,13 +13,13 @@ const CATEGORIES = ['all', 'web', 'tool', 'experiment', 'mobile'] as const
 type FilterCategory = (typeof CATEGORIES)[number]
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.08 })
+  const [ref, inView] = useInView({ threshold: 0.08 })
 
   return (
     <motion.article
       ref={ref}
       initial={{ opacity: 0, y: 22 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: index * 0.06 }}
       className="group flex flex-col border border-canvas-300 rounded-2xl bg-white p-6 hover:border-accent/30 hover:shadow-card transition-all duration-300"
     >
@@ -149,7 +149,7 @@ export function Projects({ projects }: ProjectsProps) {
           className="mt-12 text-center"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
+          viewport={{ once: false }}
           transition={{ delay: 0.3 }}
         >
           <a

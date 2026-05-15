@@ -18,7 +18,7 @@ const CATEGORY_LABELS: Record<Skill['category'], string> = {
 const CATEGORY_ORDER: Skill['category'][] = ['language', 'frontend', 'tools', 'backend', 'animation']
 
 export function Skills({ skills }: SkillsProps) {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const [ref, inView] = useInView({ threshold: 0.1 })
   const [hovered, setHovered] = useState<string | null>(null)
 
   const grouped = CATEGORY_ORDER.reduce<Record<string, Skill[]>>((acc, cat) => {
@@ -49,14 +49,14 @@ export function Skills({ skills }: SkillsProps) {
           ref={ref}
           className="space-y-10"
           initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
+          animate={inView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.4 }}
         >
           {Object.entries(grouped).map(([cat, catSkills], gi) => (
             <motion.div
               key={cat}
               initial={{ opacity: 0, y: 16 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
+              animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 16 }}
               transition={{ delay: gi * 0.08, duration: 0.5 }}
             >
               <p className="font-mono text-[10px] tracking-[0.2em] uppercase text-ink-500 mb-5">
@@ -99,7 +99,7 @@ export function Skills({ skills }: SkillsProps) {
                             isHov ? 'bg-accent' : 'bg-ink-500'
                           ].join(' ')}
                           initial={{ width: 0 }}
-                          animate={inView ? { width: `${skill.proficiency}%` } : {}}
+                          animate={inView ? { width: `${skill.proficiency}%` } : { width: 0 }}
                           transition={{
                             duration: 0.85,
                             ease: 'easeOut',

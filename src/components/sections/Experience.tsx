@@ -11,7 +11,7 @@ interface ExperienceProps {
 
 function ExperienceEntry({ exp, index }: { exp: Experience; index: number }) {
   const [expanded, setExpanded] = useState(index === 0)
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const [ref, inView] = useInView({ threshold: 0.1 })
   const isCurrent = !exp.endDate
 
   return (
@@ -19,7 +19,7 @@ function ExperienceEntry({ exp, index }: { exp: Experience; index: number }) {
       ref={ref}
       className="grid grid-cols-[2px_1fr] gap-8"
       initial={{ opacity: 0, y: 18 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
+      animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 18 }}
       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: index * 0.1 }}
     >
       {/* Timeline */}
@@ -35,7 +35,7 @@ function ExperienceEntry({ exp, index }: { exp: Experience; index: number }) {
         <motion.div
           className="flex-1 w-px bg-canvas-300 mt-2"
           initial={{ scaleY: 0, originY: 0 }}
-          animate={inView ? { scaleY: 1 } : {}}
+          animate={inView ? { scaleY: 1 } : { scaleY: 0 }}
           transition={{ duration: 0.6, delay: index * 0.1 + 0.2 }}
         />
       </div>

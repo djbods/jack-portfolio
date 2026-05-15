@@ -45,7 +45,7 @@ function Field({
 type FormStatus = 'idle' | 'sending' | 'success' | 'error'
 
 export function Contact({ config }: ContactProps) {
-  const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const [ref, inView] = useInView({ threshold: 0.1 })
   const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
   const [status, setStatus] = useState<FormStatus>('idle')
 
@@ -91,7 +91,7 @@ export function Contact({ config }: ContactProps) {
           ref={ref}
           className="mx-auto max-w-4xl"
           initial={{ opacity: 0, y: 22 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
+          animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
           transition={{ duration: 0.6 }}
         >
           <div className="grid gap-6 lg:grid-cols-5">
