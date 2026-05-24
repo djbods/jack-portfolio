@@ -153,7 +153,7 @@ export function Projects({ projects }: ProjectsProps) {
           transition={{ delay: 0.3 }}
         >
           <a
-            href="https://github.com/jackbodsworth"
+            href="https://github.com/djbods"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 font-body text-sm text-ink-500 hover:text-accent transition-colors link-hover"

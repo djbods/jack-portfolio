@@ -60,7 +60,7 @@ export function About({ config }: AboutProps) {
               animate={inView ? { opacity: 1 } : { opacity: 0 }}
               transition={{ delay: 0.28 }}
             >
-              <Button variant="solid" href={config?.github ?? 'https://github.com/jackbodsworth'} external>
+              <Button variant="solid" href={config?.github ?? 'https://github.com/djbods'} external>
                 GitHub
               </Button>
               <Button variant="outline" href={config?.linkedin ?? 'https://linkedin.com/in/jackbodsworth'} external>

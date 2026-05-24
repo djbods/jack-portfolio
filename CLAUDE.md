@@ -9,7 +9,7 @@ It is the single source of truth for this project's conventions, decisions, and 
 
 **Jack Bodsworth** — Front-End Developer based in Melbourne, VIC, Australia.
 - Email: jack.bodsworth@gmail.com
-- GitHub: https://github.com/jackbodsworth
+- GitHub: https://github.com/djbods
 - LinkedIn: https://linkedin.com/in/jackbodsworth
 - 4+ years of professional experience (not 6, not "Senior" — be accurate)
 - Primary stack at work: **Vue.js** (not React — Vue is my day job)
