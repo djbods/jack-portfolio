@@ -12,6 +12,7 @@ export interface Project {
   featured: boolean
   year: number
   category: 'web' | 'mobile' | 'tool' | 'experiment'
+  kind: 'personal' | 'work'
 }
 
 export interface Experience {

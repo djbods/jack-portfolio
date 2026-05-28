@@ -30,6 +30,47 @@ export const STATIC_CONFIG: SiteConfig = {
 // ─── Projects ─────────────────────────────────────────────────────────────────
 
 export const STATIC_PROJECTS: Project[] = [
+  // ─── Personal projects (apps I've built and shipped) ──────────────────────
+  {
+    id:              'e39-garage',
+    title:           'E39 Garage',
+    description:     'Offline-first PWA for tracking service history, modifications, and spend on my BMW E39.',
+    longDescription: 'A self-built progressive web app for keeping a maintenance log on my 2002 BMW 530i. Works fully offline via IndexedDB, installs to the home screen, and syncs cleanly between phone and laptop. Designed as a personal tool first, but built to the same standard as anything I\'d ship at work.',
+    tech:            ['React', 'TypeScript', 'IndexedDB', 'PWA', 'Vite'],
+    liveUrl:         'https://e39-tracker.netlify.app',
+    imageUrl:        '/projects/e39-garage.png',
+    featured:        true,
+    year:            2026,
+    category:        'web',
+    kind:            'personal',
+  },
+  {
+    id:              'vault',
+    title:           'Vault',
+    description:     'A private, self-hosted cinema for my movie library — TMDB-powered, with built-in torrent ingest.',
+    longDescription: 'A self-hosted video streaming app I built to replace Plex for my personal library. Express backend with a vanilla-JS frontend, TMDB integration for posters and metadata, WebTorrent for ingest, and a cinema-styled player. Runs locally on my network only — no public deployment.',
+    tech:            ['JavaScript', 'Express', 'Node.js', 'WebTorrent', 'TMDB API'],
+    imageUrl:        '/projects/vault.png',
+    featured:        true,
+    year:            2025,
+    category:        'web',
+    kind:            'personal',
+  },
+  {
+    id:              'jack-portfolio',
+    title:           'This Portfolio',
+    description:     'The site you\'re looking at — a living showcase, not a static CV. Animations, design tokens, and all.',
+    longDescription: 'Built with React, Vite, TypeScript, TailwindCSS, and Framer Motion. Designed to feel like an experience rather than a brochure — viewport-triggered reveals that replay, custom canvas animations, and a tight design-token system. Content lives in a single typed file so it stays trivial to update.',
+    tech:            ['React', 'TypeScript', 'Vite', 'TailwindCSS', 'Framer Motion'],
+    githubUrl:       'https://github.com/djbods/jack-portfolio',
+    imageUrl:        '/projects/portfolio.png',
+    featured:        true,
+    year:            2026,
+    category:        'web',
+    kind:            'personal',
+  },
+
+  // ─── Work projects (professional achievements) ────────────────────────────
   {
     id:              'uom-design-system',
     title:           'UniMelb Design System',
@@ -39,6 +80,7 @@ export const STATIC_PROJECTS: Project[] = [
     featured:        true,
     year:            2024,
     category:        'tool',
+    kind:            'work',
   },
   {
     id:              'enrolment-platform',
@@ -49,6 +91,7 @@ export const STATIC_PROJECTS: Project[] = [
     featured:        true,
     year:            2023,
     category:        'web',
+    kind:            'work',
   },
   {
     id:              'acem-component-library',
@@ -59,6 +102,7 @@ export const STATIC_PROJECTS: Project[] = [
     featured:        true,
     year:            2022,
     category:        'tool',
+    kind:            'work',
   },
   {
     id:              'ci-cd-pipelines',
@@ -69,6 +113,7 @@ export const STATIC_PROJECTS: Project[] = [
     featured:        false,
     year:            2023,
     category:        'tool',
+    kind:            'work',
   },
   {
     id:              'performance-optimisation',
@@ -79,6 +124,7 @@ export const STATIC_PROJECTS: Project[] = [
     featured:        false,
     year:            2022,
     category:        'experiment',
+    kind:            'work',
   },
 ]
 
