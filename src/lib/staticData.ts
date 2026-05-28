@@ -20,7 +20,7 @@ export const STATIC_CONFIG: SiteConfig = {
   bioExtended:     'Before writing code I was producing electronic music and DJing. It turns out the two have more in common than you\'d think — both are about structure, precision, and making something feel effortless to the person experiencing it. These days I apply that same obsession to design systems, performance, and CI/CD pipelines.',
   location:        'Melbourne, VIC, Australia',
   email:           'jack.bodsworth@gmail.com',
-  github:          'https://github.com/jackbodsworth',
+  github:          'https://github.com/djbods',
   linkedin:        'https://linkedin.com/in/jackbodsworth',
   twitter:         'https://twitter.com/jackbodsworth',
   availableForWork: true,

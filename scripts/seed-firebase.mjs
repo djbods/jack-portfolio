@@ -41,7 +41,7 @@ const CONFIG = {
   bioExtended:     "I believe the best digital products are the ones that feel effortless to use. Whether I'm building a design system adopted across five repositories, shaving 30% off page load times, or wiring up end-to-end CI/CD pipelines — I bring the same attention to craft to every layer of the stack. I thrive in cross-functional teams and love the intersection of developer experience and user experience.",
   location:        'Melbourne, VIC, Australia',
   email:           'jack.bodsworth@gmail.com',
-  github:          'https://github.com/jackbodsworth',
+  github:          'https://github.com/djbods',
   linkedin:        'https://linkedin.com/in/jackbodsworth',
   twitter:         'https://twitter.com/jackbodsworth',
   availableForWork: true,
