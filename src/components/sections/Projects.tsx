@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { ExternalLink, Github, ArrowUpRight } from 'lucide-react'
+import { ExternalLink, Github, ArrowUpRight, Lock } from 'lucide-react'
 import { SectionTitle } from '@/components/ui/SectionTitle'
 import type { Project } from '@/types'
 
@@ -9,11 +9,38 @@ interface ProjectsProps {
   projects: Project[]
 }
 
-const CATEGORIES = ['all', 'web', 'tool', 'experiment', 'mobile'] as const
-type FilterCategory = (typeof CATEGORIES)[number]
+function ScreenshotPreview({ project }: { project: Project }) {
+  const [errored, setErrored] = useState(false)
+  const showImage = project.imageUrl && !errored
+
+  return (
+    <div className="relative -mx-6 -mt-6 mb-5 aspect-[16/10] overflow-hidden rounded-t-2xl border-b border-canvas-300 bg-canvas-200">
+      {showImage ? (
+        <img
+          src={project.imageUrl}
+          alt={`${project.title} preview`}
+          loading="lazy"
+          onError={() => setErrored(true)}
+          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+        />
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-accent-pale via-canvas-100 to-canvas-200">
+          <span
+            className="font-display font-bold text-accent/40"
+            style={{ fontSize: 'clamp(2rem, 6vw, 3.5rem)', letterSpacing: '-0.04em' }}
+          >
+            {project.title.charAt(0)}
+          </span>
+        </div>
+      )}
+    </div>
+  )
+}
 
 function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [ref, inView] = useInView({ threshold: 0.08 })
+  const isPersonal = project.kind === 'personal'
+  const hasLink = Boolean(project.liveUrl || project.githubUrl)
 
   return (
     <motion.article
@@ -21,8 +48,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       initial={{ opacity: 0, y: 22 }}
       animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 22 }}
       transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: index * 0.06 }}
-      className="group flex flex-col border border-canvas-300 rounded-2xl bg-white p-6 hover:border-accent/30 hover:shadow-card transition-all duration-300"
+      className="group flex flex-col overflow-hidden border border-canvas-300 rounded-2xl bg-white p-6 hover:border-accent/30 hover:shadow-card transition-all duration-300"
     >
+      {isPersonal && <ScreenshotPreview project={project} />}
+
       {/* Top */}
       <div className="flex items-start justify-between gap-2 mb-4">
         <div className="flex items-center gap-2 flex-wrap">
@@ -87,21 +116,66 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             Source
           </a>
         )}
+        {isPersonal && !hasLink && (
+          <span className="inline-flex items-center gap-1.5 font-body text-xs text-ink-400">
+            <Lock size={12} strokeWidth={1.5} />
+            Self-hosted only
+          </span>
+        )}
       </div>
     </motion.article>
   )
 }
 
+function ProjectGroup({
+  eyebrow,
+  description,
+  projects,
+  startIndex,
+}: {
+  eyebrow: string
+  description: string
+  projects: Project[]
+  startIndex: number
+}) {
+  const [ref, inView] = useInView({ threshold: 0.15 })
+
+  if (projects.length === 0) return null
+
+  return (
+    <div className="mb-16 last:mb-0">
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, y: 12 }}
+        animate={inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 12 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="mb-8 flex flex-col gap-2 md:flex-row md:items-end md:justify-between md:gap-6"
+      >
+        <div>
+          <p className="font-mono text-[11px] tracking-[0.18em] text-accent uppercase mb-2">
+            {eyebrow}
+          </p>
+          <p className="font-body text-ink-500 leading-relaxed max-w-2xl">{description}</p>
+        </div>
+        <span className="font-mono text-xs text-ink-300 shrink-0">
+          {projects.length} {projects.length === 1 ? 'project' : 'projects'}
+        </span>
+      </motion.div>
+
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {projects.map((project, i) => (
+          <ProjectCard key={project.id} project={project} index={startIndex + i} />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function Projects({ projects }: ProjectsProps) {
-  const [activeFilter, setActiveFilter] = useState<FilterCategory>('all')
-
-  const availableCategories = CATEGORIES.filter((cat) => {
-    if (cat === 'all') return true
-    return projects.some((p) => p.category === cat)
-  })
-
-  const filtered = activeFilter === 'all' ? projects : projects.filter((p) => p.category === activeFilter)
-  const sorted = [...filtered].sort((a, b) => Number(b.featured) - Number(a.featured))
+  const personal = projects.filter((p) => p.kind === 'personal')
+  const work = projects
+    .filter((p) => p.kind === 'work')
+    .sort((a, b) => Number(b.featured) - Number(a.featured))
 
   return (
     <section id="projects" className="py-20 md:py-32 bg-canvas-100">
@@ -109,41 +183,22 @@ export function Projects({ projects }: ProjectsProps) {
         <SectionTitle
           eyebrow="Projects"
           title="Stuff I've built."
-          subtitle="Selected work from the last few years — real projects, real problems, no lorem ipsum."
+          subtitle="Personal apps I ship in my own time, plus selected work from the day job. Real projects, real problems, no lorem ipsum."
         />
 
-        {/* Filter tabs */}
-        <div className="mb-10 flex flex-wrap gap-2">
-          {availableCategories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveFilter(cat)}
-              className={[
-                'font-mono text-xs uppercase tracking-wider rounded-full px-4 py-1.5 transition-all duration-200',
-                activeFilter === cat
-                  ? 'bg-accent text-white'
-                  : 'border border-canvas-300 bg-white text-ink-500 hover:border-ink-300 hover:text-ink-800',
-              ].join(' ')}
-            >
-              {cat}
-            </button>
-          ))}
-        </div>
+        <ProjectGroup
+          eyebrow="Personal — apps I ship"
+          description="Side projects I build for myself and use daily. Held to the same standard as anything I'd ship at work."
+          projects={personal}
+          startIndex={0}
+        />
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeFilter}
-            className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-          >
-            {sorted.map((project, i) => (
-              <ProjectCard key={project.id} project={project} index={i} />
-            ))}
-          </motion.div>
-        </AnimatePresence>
+        <ProjectGroup
+          eyebrow="Work — professional"
+          description="Things I've shipped for employers. Most live behind login walls, so screenshots aren't included."
+          projects={work}
+          startIndex={personal.length}
+        />
 
         <motion.div
           className="mt-12 text-center"
@@ -153,7 +208,7 @@ export function Projects({ projects }: ProjectsProps) {
           transition={{ delay: 0.3 }}
         >
           <a
-            href="https://github.com/jackbodsworth"
+            href="https://github.com/djbods"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 font-body text-sm text-ink-500 hover:text-accent transition-colors link-hover"
